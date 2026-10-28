@@ -23,6 +23,8 @@ ICONS = {name: f"https://raw.githubusercontent.com/omiusgm/agent-bark-setup/main
          for name in ("agent", "approval", "question", "complete", "warning", "code", "project", "server")}
 ICONS.update({name: f"https://raw.githubusercontent.com/omiusgm/agent-bark-setup/main/icons/{name}-v2.jpg"
               for name in ("hedgehog", "coordinator", "developer", "infrastructure")})
+SENDERS = {"codex": "developer", "ezh": "hedgehog", "coordinator": "coordinator",
+           "dot": None, "other": None}
 
 
 def clean(value, name, limit):
@@ -51,7 +53,7 @@ def secret():
     return key
 
 
-def notify(kind, project, chat, host, message, event_id, url="", icon="", *, dry_run=False):
+def notify(kind, project, chat, host, message, event_id, url="", icon="", *, dry_run=False, sender="codex"):
     if kind not in KINDS:
         raise ValueError("Неизвестный тип события")
     project = clean(project, "project", 60)
@@ -61,9 +63,13 @@ def notify(kind, project, chat, host, message, event_id, url="", icon="", *, dry
     event_id = clean(event_id, "event_id", 120)
     payload = {"title": f"{KINDS[kind]} · {project}", "subtitle": f"{chat} · {host}",
                "body": message, "group": project, "isArchive": "1", "level": "active"}
-    if icon:
-        if icon not in ICONS: raise ValueError("Неизвестная иконка")
-        payload["icon"] = ICONS[icon]
+    if sender not in SENDERS:
+        raise ValueError("Неизвестная роль отправителя")
+    # A role is self-reported metadata, never authentication or an access grant.
+    # Legacy icon is intentionally ignored: Codex must not select Ezh's avatar.
+    selected_icon = SENDERS[sender]
+    if selected_icon:
+        payload["icon"] = ICONS[selected_icon]
     if url:
         parsed = urllib.parse.urlsplit(url)
         if parsed.scheme != "https" or parsed.hostname not in ("t.me", "telegram.me") or parsed.username or parsed.password or parsed.port or not parsed.path.strip("/"):

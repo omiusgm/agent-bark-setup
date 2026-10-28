@@ -21,12 +21,23 @@ class PilotTests(unittest.TestCase):
         r = p.notify(**ARGS, dry_run=True, url="https://t.me/example")
         self.assertEqual(r["payload"]["group"], "Доступы")
         self.assertNotIn("device_key", r["payload"])
-        r = p.notify(**ARGS, icon="hedgehog", dry_run=True)
+        r = p.notify(**ARGS, sender="ezh", dry_run=True)
         self.assertTrue(r["payload"]["icon"].endswith("/hedgehog-v2.jpg"))
         with self.assertRaises(ValueError):
             p.notify(**ARGS, dry_run=True, url="https://t.me.evil.example/x")
         with self.assertRaises(ValueError):
             p.notify(**dict(ARGS, kind="spam"), dry_run=True)
+
+    def test_role_selects_avatar_and_legacy_icon_cannot_impersonate_ezh(self):
+        codex = p.notify(**ARGS, sender="codex", icon="hedgehog", dry_run=True)
+        self.assertTrue(codex["payload"]["icon"].endswith('/developer-v2.jpg'))
+        for sender in ('dot', 'other'):
+            payload = p.notify(**ARGS, sender=sender, icon='hedgehog', dry_run=True)['payload']
+            self.assertNotIn('icon', payload)
+        coordinator = p.notify(**dict(ARGS, host='Linux'), sender='coordinator', dry_run=True)
+        self.assertTrue(coordinator['payload']['icon'].endswith('/coordinator-v2.jpg'))
+        with self.assertRaises(ValueError):
+            p.notify(**ARGS, sender='admin', dry_run=True)
 
     def test_dedup_and_server_acceptance(self):
         with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {"HOME": tmp}), \

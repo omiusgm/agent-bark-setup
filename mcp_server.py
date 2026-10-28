@@ -7,17 +7,20 @@ mcp = FastMCP("agent-bark")
 
 @mcp.tool()
 def send_attention(kind: str, project: str, chat: str, host: str, message: str,
-                   event_id: str, url: str = "", icon: str = "", dry_run: bool = False) -> dict:
+                   event_id: str, url: str = "", icon: str = "", dry_run: bool = False,
+                   sender: str = "codex") -> dict:
     """Send only when the owner must answer, approve, review a finished task, or handle a serious blocker.
 
     kind: question, approval, review, error. Supply exact project, chat and machine names.
     message: concise, no private details or secrets. event_id: stable ID for this specific event;
-    re-use it on retries. Optional url accepts only Telegram https links. icon: agent, approval,
-    question, complete, warning, code, project, server, hedgehog, coordinator, developer,
-    infrastructure, or empty. Server acceptance is not phone delivery.
+    re-use it on retries. Optional url accepts only Telegram https links. sender selects
+    codex, ezh (Ezh only), coordinator, dot or other. Legacy icon is ignored.
+    sender is self-reported metadata, not authenticated identity. Server acceptance
+    is not phone delivery.
     """
     try:
-        return notify(kind, project, chat, host, message, event_id, url, icon, dry_run=dry_run)
+        return notify(kind, project, chat, host, message, event_id, url, icon,
+                      dry_run=dry_run, sender=sender)
     except (ValueError, RuntimeError) as exc:
         return {"status": "not_sent", "reason": str(exc)}
 
