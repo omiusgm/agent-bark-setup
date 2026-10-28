@@ -13,7 +13,8 @@ def send_attention(kind: str, project: str, chat: str, host: str, message: str,
     kind: question, approval, review, error. Supply exact project, chat and machine names.
     message: concise, no private details or secrets. event_id: stable ID for this specific event;
     re-use it on retries. Optional url accepts only Telegram https links. icon: agent, approval,
-    question, complete, warning, code, project, server, or empty. Server acceptance is not phone delivery.
+    question, complete, warning, code, project, server, hedgehog, coordinator, developer,
+    infrastructure, or empty. Server acceptance is not phone delivery.
     """
     try:
         return notify(kind, project, chat, host, message, event_id, url, icon, dry_run=dry_run)

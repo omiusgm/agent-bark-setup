@@ -21,6 +21,8 @@ class PilotTests(unittest.TestCase):
         r = p.notify(**ARGS, dry_run=True, url="https://t.me/example")
         self.assertEqual(r["payload"]["group"], "Доступы")
         self.assertNotIn("device_key", r["payload"])
+        r = p.notify(**ARGS, icon="hedgehog", dry_run=True)
+        self.assertTrue(r["payload"]["icon"].endswith("/hedgehog-v2.jpg"))
         with self.assertRaises(ValueError):
             p.notify(**ARGS, dry_run=True, url="https://t.me.evil.example/x")
         with self.assertRaises(ValueError):

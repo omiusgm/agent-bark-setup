@@ -21,6 +21,8 @@ SERVER = "https://api.day.app/push"
 COOLDOWN = 3600
 ICONS = {name: f"https://raw.githubusercontent.com/omiusgm/agent-bark-setup/main/icons/{name}.png"
          for name in ("agent", "approval", "question", "complete", "warning", "code", "project", "server")}
+ICONS.update({name: f"https://raw.githubusercontent.com/omiusgm/agent-bark-setup/main/icons/{name}-v2.jpg"
+              for name in ("hedgehog", "coordinator", "developer", "infrastructure")})
 
 
 def clean(value, name, limit):

@@ -49,6 +49,15 @@ codex mcp add agent-bark -- "$PWD/.venv/bin/python" "$PWD/mcp_server.py"
 
 ## Готовые иконки
 
+Аватары для разных ролей (созданы с помощью ImageGen, вдохновлены образом агента Ёж):
+
+| Ёж | Координатор | Разработчик | Инфраструктура |
+| --- | --- | --- | --- |
+| ![Ёж](icons/hedgehog-v2.jpg) | ![Координатор](icons/coordinator-v2.jpg) | ![Разработчик](icons/developer-v2.jpg) | ![Инфраструктура](icons/infrastructure-v2.jpg) |
+| `hedgehog` | `coordinator` | `developer` | `infrastructure` |
+
+Также доступны простые пиктограммы:
+
 | Агент | Согласование | Вопрос | Готово |
 | --- | --- | --- | --- |
 | ![Агент](icons/agent.png) | ![Согласование](icons/approval.png) | ![Вопрос](icons/question.png) | ![Готово](icons/complete.png) |
@@ -59,7 +68,7 @@ codex mcp add agent-bark -- "$PWD/.venv/bin/python" "$PWD/mcp_server.py"
 | ![Ошибка](icons/warning.png) | ![Код](icons/code.png) | ![Проект](icons/project.png) | ![Сервер](icons/server.png) |
 | `warning` | `code` | `project` | `server` |
 
-`agent`, `approval`, `question`, `complete`, `warning`, `code`, `project`, `server`. Укажите одно имя в поле `icon`, либо используйте прямые адреса `https://raw.githubusercontent.com/omiusgm/agent-bark-setup/main/icons/agent.png` и аналогичные для других имён. Файлы PNG, 256×256; iPhone должен иметь возможность загрузить адрес. Наличие HTTP-ответа не гарантирует показ картинки на каждом устройстве. Оригиналы можно менять и распространять по лицензии MIT.
+Укажите имя из таблицы в поле `icon`. Прямые адреса: `https://raw.githubusercontent.com/omiusgm/agent-bark-setup/main/icons/hedgehog-v2.jpg` и аналогичные для других аватаров; пиктограммы используют имена вида `agent.png`. Файлы JPEG и PNG, 256×256; iPhone должен иметь возможность загрузить адрес. Наличие HTTP-ответа не гарантирует показ картинки на каждом устройстве. Оригиналы можно менять и распространять по лицензии MIT.
 
 ## Приватность и ограничения
 
